@@ -34,7 +34,7 @@ et `NOTICE`.
 
 ### Limites connues
 
-- **Crayon optique** : la routine bas niveau (souris → coordonnées) est en place, mais la fonction BASIC `PEN(...)` **ne suit pas la souris**. Comportement identique à dcmo5 v11. Voir [issue #86](https://github.com/Lesur-ai/dcmoto/issues/86).
+- **Crayon optique** : la routine bas niveau (souris → coordonnées) est en place, mais la fonction BASIC `PEN(...)` **ne suit pas la souris**. Comportement identique à dcmo5 v11. Voir [issue #1](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/1).
 - Les extensions spécifiques (Nanoréseau Leanord, QD90-128, etc.) ne sont pas émulées.
 
 ---
@@ -43,27 +43,26 @@ et `NOTICE`.
 
 ```
 cmd/dcmoto
-  └── internal/app        (Ebitengine : fenêtre, input, audio, prefs)
-       └── internal/core  (machine MO5 : bus, RAM/ROM, ports, timing, IRQ)
-            ├── internal/cpu6809  (Motorola 6809, pur Go, sans UI)
-            ├── internal/media    (cassette, disquette, cartouche, imprimante)
-            └── internal/spec     (constantes matérielles, adresses, codes touches)
+  ├── internal/app        (Ebitengine : fenêtre, boucle principale, entrées clavier/souris)
+  ├── internal/engine     (Moteur d'émulation commun, synchronisation audio/vidéo)
+  ├── internal/machine    (Profils matériels et registre)
+  │    ├── mo5            (Mémoire et périphériques spécifiques MO5)
+  │    ├── to8d           (Mémoire et périphériques spécifiques TO8D)
+  │    ├── to9p           (Mémoire et périphériques spécifiques TO9+)
+  │    └── gatearray      (Socle commun gate-array pour famille TO)
+  ├── internal/core       (Emulation matérielle de base)
+  │    ├── cpu6809        (Processeur Motorola 6809)
+  │    └── media          (Cassette, disquette, cartouche, imprimante)
+  ├── internal/keyboard   (Abstraction du clavier data-driven et gamepads)
+  ├── internal/uimodel    (Composants de l'IHM et de l'overlay de configuration)
+  ├── internal/audio      (Système audio, buffers et traitement)
+  └── internal/spec       (Constantes matérielles et adresses communes)
 ```
 
-Le cœur d'émulation (`core`, `cpu6809`, `media`, `spec`) ne dépend d'aucune
-bibliothèque graphique, audio ou fichier. Ebitengine est limité à la couche
-application. *(Schéma du cœur MO5 v1.)*
+L'architecture est structurée en profils de machine (`internal/machine/...`) pilotés par un moteur d'émulation partagé (`internal/engine`).
+Le cœur d'émulation (`core`, `cpu6809`, `media`, `machine`) ne dépend d'aucune bibliothèque graphique, audio ou fichier. Ebitengine (`internal/app`, `internal/uimodel`) est strictement limité à la couche application. La direction de dépendance (cœur technique pur Go ➔ rendu UI) est rigoureusement préservée.
 
-> **v2.1** : la généralisation multi-machines ajoute `internal/machine`
-> (profils + registre), `internal/engine` (boucle d'émulation partagée),
-> `internal/keyboard` (clavier *data-driven*) et `internal/uimodel` (IHM
-> *data-driven*), avec la famille gate-array TO8D/TO9+ sous
-> `internal/machine/gatearray`. La direction de dépendance (cœur sans UI) est
-> préservée. Détails dans
-> [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md).
-
-Voir [`DESIGN/ARCHITECTURE.md`](DESIGN/ARCHITECTURE.md) pour les décisions
-structurantes.
+Voir [`DESIGN/ARCHITECTURE.md`](DESIGN/ARCHITECTURE.md) et [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) pour les décisions structurantes.
 
 ---
 
@@ -263,7 +262,7 @@ Voir [`RELEASE.md`](RELEASE.md) pour la procédure de release complète.
 
 Workflow PR-only — tout merge vers `main` passe exclusivement par une Pull
 Request GitHub. Le guide de contribution (`CONTRIBUTING.md`) sera ajouté dans
-le milestone P0 (issue #12).
+le milestone P0 (issue #12 (ancien dépôt)).
 
 ---
 

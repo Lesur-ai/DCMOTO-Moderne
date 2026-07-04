@@ -91,7 +91,7 @@ tar xzf dcmoto-darwin-arm64.tar.gz
 - **Crayon optique** : la fonction BASIC `PEN(...)` ne suit pas la souris. La
   routine bas niveau (trap `0x4B`) est émulée, mais le BASIC dérive la position
   d'un handshake matériel du crayon optique non émulé — **conforme à dcmo5 v11**
-  (qui ne fait pas suivre la souris à `PEN` non plus). Cf. issue #86.
+  (qui ne fait pas suivre la souris à `PEN` non plus). Cf. issue #1.
 - ROMs Thomson et logiciels inclus dans le dépôt sous réserve (voir
   `DESIGN/LICENSING.md` §3.1 : provenance, appréciation, procédure de retrait).
 - Cassette `.k7`, disquette `.fd` (densité variable + DOS CD90-640) et cartouche
