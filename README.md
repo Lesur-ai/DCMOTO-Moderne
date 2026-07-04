@@ -3,134 +3,39 @@
 Portage moderne de l'émulateur Thomson [DCMOTO](http://dcmoto.free.fr/) (incluant le MO5, TO8D, TO9+)
 (C/SDL, © Daniel Coulom) vers **Go / Ebitengine**.
 
-*Note : DCMOTO Moderne est l'évolution du projet initial **DCMO5 Moderne**, qui constitue la v1 de ce dépôt.*
-
 Ce projet est un logiciel libre sous licence **GNU GPL v3+**. Voir `LICENSE`
 et `NOTICE`.
 
-**Version : 2.1.0** — historique dans [`CHANGELOG.md`](CHANGELOG.md). Cette
-version ajoute le socle **multi-machines** : MO5, TO8D et TO9+. Le TO8D est
-utilisable (clavier AZERTY-FR complet, joystick clavier + gamepad standard,
-changement de machine à chaud) et le TO9+ dispose d'un boot validé, du clavier
-BASIC et du joystick clavier.
+**Version : 2.1.0** — historique dans [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Captures d'écran
 
-| Jeu cassette (`.k7`) | DOS disquette (CD90-640) |
-|:--:|:--:|
-| ![Jeu MO5 chargé depuis cassette](screenshoot/mo5_aigle.png) | ![DOS MO5 depuis disquette](screenshoot/mo5_disk.png) |
+| Thomson MO5 (Jeu) | Thomson TO8D | Thomson TO9+ |
+|:--:|:--:|:--:|
+| ![MO5](screenshoot/mo5_aigle.png) | ![TO8D](screenshoot/to8d.png) | ![TO9+](screenshoot/to9plus.png) |
 
 ---
 
-## Périmètre historique v1 — MO5
+## Fonctionnalités émulées
 
-### Fonctionnalités émulées
-
-- **Vidéo** MO5 (framebuffer logique 336×216, palette Thomson, timing faisceau/IRQ 50 Hz)
-- **Audio** mono (haut-parleur 1 bit, échantillonné à 48 kHz)
-- **Clavier MO5** *layout-safe* (AZERTY/QWERTY) : les touches sont **maintenues**
-  (jeux + répétition) ; mapping clavier hôte
-- **Joysticks** émulés au clavier
-- **Cassette** `.k7`, **disquette** `.fd` (densité variable + DOS contrôleur CD90-640),
-  **cartouche** MEMO5 `.rom`
-- **Menu de pilotage in-app** (touche `Échap`) : charger/éjecter cassette,
-  disquette, cartouche ; Reset / Init prog
-- **Médias à chaud** : montage/éjection sans relancer l'émulateur
-- **Saisie programmée** `--exec` (taper une séquence au démarrage) et
-  **copier-coller** depuis le presse-papier (`Cmd+V` / `Ctrl+V`)
-- **Imprimante** parallèle vers fichier
-- Préférences utilisateur portables (Windows / macOS / Linux)
-- ROM système, ROM contrôleur CD90-640 et logiciels MO5 **inclus dans le dépôt**
-  (sous réserve — voir [`DESIGN/LICENSING.md`](DESIGN/LICENSING.md))
+- **Machines émulées** : Thomson MO5, TO8D et TO9+ (changement de machine à chaud via l'overlay).
+- **Vidéo** : framebuffer logique adapté à chaque machine, palette Thomson, timing faisceau/IRQ 50 Hz.
+- **Audio** : mono (haut-parleur 1 bit, échantillonné à 48 kHz).
+- **Clavier data-driven** : mapping complet AZERTY/QWERTY (lettres, chiffres, symboles, accents directs). Les touches sont maintenues (jeux + répétition).
+- **Joysticks** : émulation au clavier (toggle dans l'overlay) et support de **gamepads standards** (Xbox/PS/Switch Pro, jusqu'à 2 manettes simultanées en hot-plug).
+- **Médias** : 
+  - Cassette `.k7`
+  - Disquette `.fd` (densité variable + DOS contrôleur intégré)
+  - Cartouche MEMO5 / ROM `.rom`
+- **Menu de pilotage in-app (Overlay)** (touche `Échap` ou `Start` sur gamepad) : charger/éjecter les médias à chaud, changer de machine, configurer les joysticks, Reset / Init prog.
+- **Saisie programmée** `--exec` (taper une séquence au démarrage) et **copier-coller** depuis le presse-papier (`Cmd+V` / `Ctrl+V`).
+- **Préférences utilisateur** mémorisées et portables (Windows / macOS / Linux).
+- ROMs systèmes et logiciels **inclus dans le dépôt** (voir [`DESIGN/LICENSING.md`](DESIGN/LICENSING.md)).
 
 ### Limites connues
 
-- **Crayon optique** : la routine bas niveau (souris → coordonnées MO5) est en
-  place, mais la fonction BASIC `PEN(...)` **ne suit pas la souris**. La ROM MO5
-  dérive la position d'un **handshake matériel du crayon optique** (synchro
-  faisceau) que la version moderne n'émule pas — comportement **identique à
-  dcmo5 v11**, qui ne fait pas non plus suivre la souris à `PEN`. Voir
-  [issue #86](https://github.com/Lesur-ai/dcmoto/issues/86) (amélioration future).
-
-### Exclusions explicites de la v1
-
-Les extensions suivantes **ne sont pas émulées**, conformément au périmètre de
-DCMO5 v11 :
-
-- Nanoréseau Leanord
-- Quick Disk Drive QD90-128
-- Contrôleur IN57-001
-- Contrôleur DI90-011
-- Toute extension assimilée
-
----
-
-## Version 2.1.0 — multi-machines (TO8D + TO9+)
-
-La version 2.1.0 ajoute les **Thomson TO8D** et **TO9+** à côté du MO5.
-Architecture de profils de machine + moteur d'émulation partagé, base
-gate-array complète (mémoire/vidéo/timer/E/S + clavier + joystick), clavier
-généralisé *data-driven* et IHM *data-driven* (ebitenui, cross-compilation
-Windows `CGO_ENABLED=0`).
-
-**Ce qui est utilisable côté TO8D** :
-- Boot avec ROM, BASIC opérationnel, ratio d'affichage correct.
-- Clavier français AZERTY complet (lettres + chiffres + symboles + accents
-  directs `é è à ç ù`).
-- **Joystick** : émulation au clavier (toggle dans l'overlay) et **gamepad
-  standard** (Xbox/PS/Switch Pro, jusqu'à 2 manettes simultanées en hot-plug,
-  bouton Start ouvre l'overlay).
-- Changement de machine MO5 ↔ TO8D **à chaud** via l'overlay (`Échap` →
-  bouton « Changer machine »), médias éjectés au switch et son préservé.
-- Présélection via `dcmoto --machine to8d` : le launcher s'ouvre sur le TO8D
-  avec repli en cascade sur `rom/to8d.rom` si la ROM n'est pas mémorisée en
-  config.
-
-**Ce qui est validé côté TO9+** :
-- Profil `to9p`, ROM `rom/to9p.rom` et clavier TO9+ ASCII distinct du chemin
-  TO8D (`E7DE/E7DF`).
-- Patchs ROM TO9+ appliqués en mémoire, alignés sur DCTO9P v11, pour détourner
-  les routines cassette/disque/souris/crayon/clavier vers les traps émulés.
-- Date de boot TO9+ injectée en mémoire au format `jj-mm-aa`, comme DCTO9P v11.
-- Boot non-GUI couvert par un invariant déterministe sur la ROM réelle :
-  progression depuis le vecteur reset `0xFDA0`, framebuffer rendu et signature
-  FNV-1a `0xbe3a0985`.
-- Smoke GUI borné disponible via le vrai chemin Ebitengine (`cmd` → `app.Run`
-  → `Host` → `Draw`) :
-
-  ```bash
-  DCMOTO_SMOKE_FRAMES=180 \
-  DCMOTO_SMOKE_SCREENSHOT=/tmp/dcmoto-to9p.png \
-  go run ./cmd/dcmoto --machine to9p --rom rom/to9p.rom --no-audio
-  ```
-
-- Smoke clavier minimal validé avec `--exec '1\n'` : le firmware quitte le menu
-  TO9+ et arrive au prompt BASIC. Cette preuve valide une saisie bout-en-bout,
-  sans prétendre certifier tous les logiciels souris/crayon.
-- Joystick clavier TO9+ validé : maintenir une flèche ne bloque plus
-  l'émulation, car les flèches ne sont plus envoyées simultanément au clavier
-  firmware TO9+ quand le mode joystick clavier est actif.
-
-**Switch machine et ROMs par défaut** :
-- Le bouton « Changer machine » parcourt les profils disponibles (MO5, TO8D,
-  TO9+) au lieu d'un aller-retour limité MO5 ↔ TO8D.
-- Le launcher et l'overlay pré-remplissent les ROMs livrées quand elles
-  existent : `rom/mo5-v1.1.rom`, `rom/to8d.rom`, `rom/to9p.rom`.
-
-**Overlay de pilotage Échap** : remplace le menu v1. Carte `ebitenui`
-superposée au framebuffer gelé, médias éditables + actions système (Reset
-/ Init prog / Quitter / Changer machine / Key Joystk) + bouton « Appliquer
-et reprendre ». `Start` du gamepad ouvre et ferme aussi l'overlay.
-
-Le **MO5 (v1) décrit ci-dessus reste pleinement fonctionnel et inchangé** —
-non-régression contrôlée par tests miroirs (parité bits joystick MO5/TO8D
-figée par la suite CI).
-
-Conception détaillée dans
-[`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) et
-[`DESIGN/JOYSTICK.md`](DESIGN/JOYSTICK.md). Le détail
-des évolutions est tenu dans [`CHANGELOG.md`](CHANGELOG.md) (section
-`2.1.0`).
+- **Crayon optique** : la routine bas niveau (souris → coordonnées) est en place, mais la fonction BASIC `PEN(...)` **ne suit pas la souris**. Comportement identique à dcmo5 v11. Voir [issue #86](https://github.com/Lesur-ai/dcmoto/issues/86).
+- Les extensions spécifiques (Nanoréseau Leanord, QD90-128, etc.) ne sont pas émulées.
 
 ---
 
