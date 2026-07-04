@@ -2,27 +2,23 @@
 
 *Note : DCMOTO Moderne est l'évolution de DCMO5 Moderne, qui constitue la v1 de ce projet.*
 
-> Statut : document de cadrage initial.
-> Date : 2026-06-04.
-> Perimetre : portage moderne de `dcmo5v11.0` vers une application desktop
-> macOS et Linux, avec reecriture progressive et testee en Go.
+> Statut : architecture de référence v2.1.
+> Périmètre : émulateur multi-machines de la gamme Thomson (MO5, TO8D, TO9+), avec réécriture progressive et testée en Go, ciblant macOS, Linux et Windows.
 
 ## 1. Objectif
 
-DCMOTO Moderne est une nouvelle implementation de l'emulateur Thomson MO5
-historique DCMO5 v11. Le code C d'origine reste la reference fonctionnelle et
-documentaire, mais il ne doit pas devenir une dependance runtime permanente.
+DCMOTO Moderne est une nouvelle implémentation multi-machines de l'émulateur Thomson historique. Le code C d'origine de DCMOTO et DCMO5 reste la référence fonctionnelle, mais n'est plus une dépendance runtime.
 
-La premiere version vise un emulateur desktop complet :
+La version 2.1 vise un émulateur desktop complet et modulaire :
 
-- rendu video MO5 ;
-- audio mono ;
-- clavier MO5 et mapping clavier hote ;
-- joysticks emules au clavier ;
+- architectures modulaires (profils machine MO5, TO8D, TO9+) ;
+- socle commun gate-array pour la gamme TO ;
+- rendu vidéo, audio et gestion clavier data-driven ;
+- joysticks et gamepads natifs ;
 - crayon optique via souris ;
-- chargement cassette `.k7`, disquette `.fd`, cartouche MEMO5 `.rom` ;
-- imprimante parallele vers fichier ;
-- preferences utilisateur portables macOS/Linux.
+- chargement de tous médias : cassette `.k7`, disquette `.fd`, cartouche `.rom` ;
+- préférences utilisateur et IHM (EbitenUI) multiplateforme.
+
 
 Les extensions explicitement non emulees par DCMO5 v11 restent hors perimetre
 initial : nanoreseau Leanord, Quick Disk Drive QD90-128, IN57-001, DI90-011 et

@@ -168,13 +168,13 @@ go run ./cmd/dcmoto --machine to8d
 go run ./cmd/dcmoto --machine to9p --rom rom/to9p.rom --no-audio
 
 # Charger un jeu cassette
-go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -tape software/yahtzee-mo5.k7
+go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -tape software/MO_k7/yahtzee-mo5.k7
 
 # Démarrer le DOS depuis une disquette (ROM contrôleur cd90-640.rom auto-détectée)
-go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -disk software/dos-5p25-mo5.fd
+go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -disk software/MO_fd/dos-5p25-mo5.fd
 
 # Cartouche MEMO5
-go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -cart software/glouton-memo5.rom
+go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -cart software/memo5/glouton-memo5.rom
 ```
 
 > Le menu in-app (`Échap`) permet aussi de charger/éjecter les médias **à chaud**,
