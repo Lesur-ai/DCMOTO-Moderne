@@ -1,1 +1,12 @@
 .DS_Store
+# Builds
+release_builds/
+dist/
+dcmoto
+dcmoto.exe
+dcmoto-darwin-*
+dcmoto-windows-*
+dcmoto-linux-*
+
+# Legacy
+dcmo5v11.0/

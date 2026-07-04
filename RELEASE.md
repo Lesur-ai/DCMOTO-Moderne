@@ -31,7 +31,6 @@ La vérification release n'est donc plus « aucun asset dans Git » ; elle est :
   `rom/mo5-v1.1.rom`, `rom/to8d.rom`, `rom/to9p.rom`, `rom/cd90-640.rom`.
 - [ ] `testdata/` ne contient que des fichiers générés ou explicitement dédiés
   aux tests.
-- [ ] `dcmo5v11.0/` est listé dans `.gitignore`
 
 ### 3. Build local de vérification
 
@@ -63,8 +62,7 @@ git tag v2.1.0
 git push origin v2.1.0
 ```
 
-Le workflow CI `.github/workflows/release.yml` se déclenche automatiquement
-et produit les archives pour :
+Les scripts de build locaux produisent les archives pour :
 - `dcmoto-darwin-arm64.tar.gz`
 - `dcmoto-darwin-amd64.tar.gz`
 - `dcmoto-linux-amd64.tar.gz`
