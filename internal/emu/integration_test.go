@@ -14,7 +14,7 @@ package emu
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 // testProgram représente un petit programme 6809 à exécuter dans le test :

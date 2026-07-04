@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/app" // init() peuple keyboard.*Model().SpecialKeys
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/mo5"  // enregistre profil mo5
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to8d" // enregistre profil to8d
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to9p" // enregistre profil to9p
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/app" // init() peuple keyboard.*Model().SpecialKeys
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"  // enregistre profil mo5
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to8d" // enregistre profil to8d
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to9p" // enregistre profil to9p
 	"github.com/hajimehoshi/ebiten/v2"
 )
 

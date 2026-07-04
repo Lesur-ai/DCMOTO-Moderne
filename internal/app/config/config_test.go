@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/app/config"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/app/config"
 )
 
 func TestConfig_SaveLoad_roundtrip(t *testing.T) {

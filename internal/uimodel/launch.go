@@ -3,7 +3,7 @@ package uimodel
 import (
 	"path/filepath"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // launch.go — coutures PURES du démarrage depuis le launcher (lot #117, PR-C2).

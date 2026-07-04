@@ -21,8 +21,8 @@
 package gatearray
 
 import (
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // Tailles des espaces mémoire (réf C : ram[0x80000], car[0x10000], port[0x40]).

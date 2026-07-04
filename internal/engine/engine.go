@@ -13,9 +13,9 @@
 package engine
 
 import (
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // Timing vidéo Thomson (commun MO5 / famille TO) : 64 cycles par ligne, 312 lignes

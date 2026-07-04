@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/uimodel"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/uimodel"
 )
 
 // fakeProfile : profil LOCAL (jamais enregistré via machine.Register, donc invisible

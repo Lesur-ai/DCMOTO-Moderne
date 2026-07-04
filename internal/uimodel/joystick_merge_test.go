@@ -3,7 +3,7 @@ package uimodel
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // TestMergeJoysticks_BothNeutral (J2c.T1) : NeutralJoystick + NeutralJoystick

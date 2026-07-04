@@ -7,7 +7,7 @@ package gatearray_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine/gatearray"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/gatearray"
 )
 
 // romMonPattern : moniteur 16 Ko = 2 banques de 8 Ko, remplies 0x50 / 0x60.

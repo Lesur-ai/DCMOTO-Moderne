@@ -3,14 +3,14 @@ package overlay_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/overlay"
-	"github.com/Lesur-ai/dcmoto/internal/uimodel"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/overlay"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/uimodel"
 
 	// Enregistrement des vrais profils pour le test data-driven MO5/TO8D ci-dessous.
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/mo5"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to8d"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to9p"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to8d"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to9p"
 )
 
 func TestModel_ZeroValueIsClosed(t *testing.T) {

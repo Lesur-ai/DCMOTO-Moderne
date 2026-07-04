@@ -4,9 +4,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/machine/mo5"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
 )
 
 func TestProfileRegistered(t *testing.T) {

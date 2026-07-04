@@ -9,12 +9,12 @@ package emu
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/machine/mo5"
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // setKeyCall enregistre un appel SetKey reçu, utilisé pour observer l'ordre

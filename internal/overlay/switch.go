@@ -1,8 +1,8 @@
 package overlay
 
 import (
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/uimodel"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/uimodel"
 )
 
 // switch.go — préparation PURE d'un changement de machine à chaud (overlay #117,

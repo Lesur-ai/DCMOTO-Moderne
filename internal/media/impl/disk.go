@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Lesur-ai/dcmoto/internal/media"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // FileDisk implémente media.Disk sur un fichier .fd.

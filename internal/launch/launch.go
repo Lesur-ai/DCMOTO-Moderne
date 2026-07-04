@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // DirectBoot décide si le démarrage contourne le launcher pour booter directement

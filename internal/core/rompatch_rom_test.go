@@ -9,11 +9,11 @@ package core_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/media"
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // countingTape compte les lectures effectives de la cassette sous-jacente.

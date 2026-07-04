@@ -20,7 +20,7 @@
 //     conventions Switch Pro inversées).
 package uimodel
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 // GamepadSnapshot représente l'état instantané d'un gamepad publié par la
 // couche app (qui lit Ebitengine et NORMALISE) vers uimodel. Champs neutres :

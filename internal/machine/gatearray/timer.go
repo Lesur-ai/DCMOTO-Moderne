@@ -9,7 +9,7 @@
 // selon les drapeaux du CSR (modèle niveau-déclenché du lot #108).
 package gatearray
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 const (
 	// Durée du signal d'IRQ timer après un timeout (cycles ; réf C : 100).

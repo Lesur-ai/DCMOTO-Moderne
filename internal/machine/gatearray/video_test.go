@@ -7,7 +7,7 @@ package gatearray_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine/gatearray"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/gatearray"
 )
 
 const (

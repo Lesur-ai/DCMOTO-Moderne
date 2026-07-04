@@ -7,8 +7,8 @@ package gatearray_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/machine/gatearray"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/gatearray"
 )
 
 // armTimer règle le latch à `latch`, recharge le compteur, et active/désactive le

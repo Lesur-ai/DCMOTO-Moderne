@@ -7,8 +7,8 @@ package core_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
 )
 
 // romWithReset construit une ROM système 16 Ko dont le vecteur reset pointe

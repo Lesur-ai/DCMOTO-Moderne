@@ -6,8 +6,8 @@ package core_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // makeNOPMachine construit une machine dont la ROM ne fait que des NOP, pour

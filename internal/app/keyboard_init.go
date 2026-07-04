@@ -14,7 +14,7 @@ package app
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
 )
 
 // mo5SpecialKeys : touches positionnelles du clavier MO5. 18 entrées,

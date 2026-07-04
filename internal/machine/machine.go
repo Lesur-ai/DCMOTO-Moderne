@@ -10,9 +10,9 @@
 package machine
 
 import (
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // Key identifie une touche logique d'une machine. L'espace de touches dépend de la

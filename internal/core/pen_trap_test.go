@@ -7,7 +7,7 @@ package core_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 // penTrapROM fabrique une ROM 16 Ko qui place S puis exécute le trap crayon :

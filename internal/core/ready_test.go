@@ -11,7 +11,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 // skipIfNotLong saute si DCMOTO_LONG_TESTS n'est pas défini.

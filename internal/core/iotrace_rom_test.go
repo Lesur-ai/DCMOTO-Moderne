@@ -18,9 +18,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // TestROM_IOTrace_BootActivity boote la vraie ROM avec une cassette montée,

@@ -6,7 +6,7 @@ package core_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 func TestFrameConstants(t *testing.T) {

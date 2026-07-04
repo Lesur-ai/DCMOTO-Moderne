@@ -3,11 +3,11 @@ package launch_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/launch"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/mo5"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to8d"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to9p"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/launch"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to8d"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to9p"
 )
 
 // TestDirectBoot : le boot direct (contournement du launcher) n'a lieu QUE si --rom

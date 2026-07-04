@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 

@@ -21,12 +21,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/engine"
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/machine/gatearray"
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/engine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/gatearray"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // Découpage de la ROM TO8D (rom/to8d.rom) : BASIC 64 Ko EN PREMIER, moniteur 16 Ko

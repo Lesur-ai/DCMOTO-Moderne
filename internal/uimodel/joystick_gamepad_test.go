@@ -3,7 +3,7 @@ package uimodel
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // TestJoystickFromGamepad_NotConnected (J4a.T1) : un slot vide (Connected=false)

@@ -3,7 +3,7 @@ package cpu6809_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
 )
 
 // ── TFR ──────────────────────────────────────────────────────────────────────

@@ -15,7 +15,7 @@ package gatearray_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // fakeCartridge : cartouche mock exposant un contenu brut (contrat media.Cartridge).

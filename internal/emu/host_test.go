@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Lesur-ai/dcmoto/internal/audio"
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/machine/mo5"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/audio"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 func s16le(lo, hi byte) int16 { return int16(uint16(lo) | uint16(hi)<<8) }

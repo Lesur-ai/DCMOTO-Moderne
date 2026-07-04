@@ -38,8 +38,8 @@ package app
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/uimodel"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/uimodel"
 )
 
 // appJoystickMapping fixe la correspondance touche → axe/bouton joystick.

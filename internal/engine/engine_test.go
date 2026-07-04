@@ -3,8 +3,8 @@ package engine
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // fakeDevice : machine synthétique pour tester la boucle du moteur en isolation

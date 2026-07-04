@@ -3,8 +3,8 @@ package uimodel_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/uimodel"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/uimodel"
 )
 
 // Dimensions réelles des framebuffers (cf. core.FrameWidth/Height = 336×216 et

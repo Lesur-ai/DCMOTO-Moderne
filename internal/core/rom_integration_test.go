@@ -16,8 +16,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // romPath cherche la ROM MO5 dans les emplacements locaux connus.

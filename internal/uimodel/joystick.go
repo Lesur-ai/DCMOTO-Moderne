@@ -14,7 +14,7 @@
 // physiquement impossible et évite des comportements indéfinis dans les jeux.
 package uimodel
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 // KeyCode est un identifiant de touche hôte neutre (= int(ebiten.Key) côté app).
 // Permet à uimodel de rester pur sans importer Ebitengine. La couche app fait

@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
 )
 
 // makeSingleDensityFD crée une disquette simple densité (40 pistes = 163840 o).

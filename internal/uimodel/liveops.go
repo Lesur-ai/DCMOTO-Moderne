@@ -1,6 +1,6 @@
 package uimodel
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 // MediaOpKind classe l'effet d'un changement applicable à chaud sur un média.
 type MediaOpKind int

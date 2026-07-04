@@ -5,7 +5,7 @@ package core
 import (
 	"errors"
 
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // ── Initialisation cartouche ──────────────────────────────────────────────────

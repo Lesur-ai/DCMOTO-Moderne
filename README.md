@@ -237,7 +237,7 @@ DCMOTO_LONG_TESTS=1 go test ./internal/core/...
 ## Distribution
 
 Des archives binaires pré-compilées sont disponibles dans les
-[releases GitHub](https://github.com/Lesur-ai/dcmoto/releases) :
+[releases GitHub](https://github.com/Lesur-ai/DCMOTO-Moderne/releases) :
 
 - **Windows amd64** : `dcmoto-windows-amd64.zip`
 - **macOS** arm64 / amd64 : `dcmoto-darwin-{arm64,amd64}.tar.gz`

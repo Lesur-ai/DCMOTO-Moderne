@@ -3,8 +3,8 @@ package overlay_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/overlay"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/overlay"
 )
 
 // noFile : exists qui ne trouve aucun fichier (pas d'auto-détection disk-rom).

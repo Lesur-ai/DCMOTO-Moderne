@@ -3,7 +3,7 @@ package media_test
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // Les tests vérifient que les interfaces sont définissables et satisfiables.

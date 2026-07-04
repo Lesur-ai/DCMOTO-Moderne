@@ -11,7 +11,7 @@ import (
 	"hash/fnv"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 // ── ROM de test générées ──────────────────────────────────────────────────────

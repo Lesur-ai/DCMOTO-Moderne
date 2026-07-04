@@ -18,7 +18,7 @@ package uimodel
 // sources avant Host.SetInput. Sans cette fonction la composition se ferait
 // ad-hoc dans App.Update et serait impossible à tester en CI (cf. D4 plan).
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 // MergeJoysticks combine deux états joystick (logique inversée : 0 = appuyé).
 // Le résultat a un bit à 0 dès qu'AU MOINS UNE des deux sources l'a à 0 — c'est

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // ── Tape ─────────────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 package uimodel
 
-import "github.com/Lesur-ai/dcmoto/internal/machine"
+import "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 
 // DisplayGeometry calcule, pour une famille de machine et la taille du framebuffer
 // logique (fw,fh fixés par FrameSize()), deux repères distincts :

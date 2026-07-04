@@ -16,7 +16,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // WidgetDescriptor est la représentation neutre d'un Param et de sa valeur courante,

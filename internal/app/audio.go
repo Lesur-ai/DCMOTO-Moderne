@@ -8,7 +8,7 @@ package app
 import (
 	"time"
 
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 	ebaudio "github.com/hajimehoshi/ebiten/v2/audio"
 )
 

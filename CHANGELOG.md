@@ -40,20 +40,20 @@ Conception : [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) +
 - **TO8D *bootable*** : profil sélectionnable au launcher (présélectionnable
   via `--machine to8d`), intégration au moteur partagé, chargement de
   `rom/to8d.rom` (BASIC + moniteur, patchs *trap* en mémoire, tout-ou-rien)
-  ([#118](https://github.com/Lesur-ai/dcmoto/issues/118) /
-  [#146](https://github.com/Lesur-ai/dcmoto/pull/146)). Affichage au **bon
-  ratio** via `DisplayGeometry` ([#147](https://github.com/Lesur-ai/dcmoto/issues/147)
-  corrigé par [#152](https://github.com/Lesur-ai/dcmoto/pull/152)).
+  ([#118](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/118) /
+  [#146](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/146)). Affichage au **bon
+  ratio** via `DisplayGeometry` ([#147](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/147)
+  corrigé par [#152](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/152)).
 - **Profil TO9+ minimal** : profil `to9p`, découpage ROM 80 Ko
   (64 Ko BASIC/logiciels + 16 Ko moniteur), repli launcher/CLI sur
-  `rom/to9p.rom` ([#186](https://github.com/Lesur-ai/dcmoto/issues/186) /
-  [#187](https://github.com/Lesur-ai/dcmoto/pull/187)).
+  `rom/to9p.rom` ([#186](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/186) /
+  [#187](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/187)).
 - **Patchs ROM TO9+ effectifs** : les copies mémoire BASIC/moniteur sont
   alignées sur DCTO9P v11 pour détourner cassette, disque, souris, crayon,
   imprimante et clavier vers les traps émulés. La date de boot est injectée au
   format `jj-mm-aa`, comme DCTO9P v11. Le patcher est tout-ou-rien, idempotent
   et refuse les variantes ROM inconnues
-  ([#195](https://github.com/Lesur-ai/dcmoto/issues/195)).
+  ([#195](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/195)).
 - **Clavier TO9+** : modèle clavier `TO9PModel` et variante gate-array TO9+
   explicite. Les frappes TO9+ publient désormais le code ASCII attendu via
   `E7DE/E7DF` d'après DCTO9P v11, au lieu d'hériter du chemin clavier TO8D
@@ -73,35 +73,35 @@ Conception : [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) +
   `les-bd-2_to8.fd`, `space-racer_to8.fd`, ainsi que des cartouches
   `compilation_memo7.rom`, `blitz_memo7.rom` et `autotest3_memo7.rom`
   dans `software/memo7/`
-  ([#187](https://github.com/Lesur-ai/dcmoto/pull/187)).
-- **Overlay de pilotage Échap** (lot [#117](https://github.com/Lesur-ai/dcmoto/issues/117),
-  PRs [#148](https://github.com/Lesur-ai/dcmoto/pull/148)–[#161](https://github.com/Lesur-ai/dcmoto/pull/161)) :
+  ([#187](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/187)).
+- **Overlay de pilotage Échap** (lot [#117](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/117),
+  PRs [#148](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/148)–[#161](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/161)) :
   remplace le menu v1 par une carte `ebitenui` superposée au framebuffer
   gelé. Médias éditables (cassette, disquette, cartouche) + actions système
   (Reset / Init prog / Quitter / Changer machine / Key Joystk) + bouton
   « Appliquer et reprendre ». Capture clavier stricte ; aucune touche fantôme
   à la reprise.
-- **Changement de machine à chaud** (PRs [#162](https://github.com/Lesur-ai/dcmoto/pull/162)
-  / [#163](https://github.com/Lesur-ai/dcmoto/pull/163)) : bouton « Changer
+- **Changement de machine à chaud** (PRs [#162](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/162)
+  / [#163](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/163)) : bouton « Changer
   machine » dans l'overlay, MO5 ↔ TO8D, ordre `New → Stop ancien → close
   media → teardownAudio → attach → mount → applyWindowSize → initAudio →
   Start`. Validation pure `PrepareSwitch` AVANT arrêt (ROM absente → erreur
   affichée, session intacte). Éjection systématique des médias (familles
   incompatibles). Présélection du launcher via `--machine to8d` sans ROM
   pré-configurée : repli en cascade sur `rom/to8d.rom`
-  ([#170](https://github.com/Lesur-ai/dcmoto/pull/170)).
+  ([#170](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/170)).
 - **Switch machine unifié et ROMs pré-remplies** : le changement de machine
   parcourt les profils enregistrés (MO5, TO8D, TO9+) au lieu d'un aller-retour
   figé MO5 ↔ TO8D. Le launcher et l'overlay utilisent le même résolveur en
   cascade : ROM configurée si elle existe, fichier de même nom dans `rom/`,
   ROM livrée du profil (`rom/mo5-v1.1.rom`, `rom/to8d.rom`, `rom/to9p.rom`),
   puis convention `rom/<id>.rom` si applicable
-  ([#199](https://github.com/Lesur-ai/dcmoto/issues/199) /
-  [#200](https://github.com/Lesur-ai/dcmoto/pull/200)).
+  ([#199](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/199) /
+  [#200](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/200)).
 - **Clavier TO8D AZERTY-FR complet** (PRs
-  [#165](https://github.com/Lesur-ai/dcmoto/pull/165) Inc Kc /
-  [#166](https://github.com/Lesur-ai/dcmoto/pull/166) Inc Ka /
-  [#167](https://github.com/Lesur-ai/dcmoto/pull/167)+[#168](https://github.com/Lesur-ai/dcmoto/pull/168) Inc Kb) :
+  [#165](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/165) Inc Kc /
+  [#166](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/166) Inc Ka /
+  [#167](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/167)+[#168](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/168) Inc Kb) :
   - **Inc Kc** : ordre modificateurs (SHIFT/CNT/ACC) avant caractères dans
     `Host.tick`, par construction (méthode `Model.ModifierKeys()` data-driven,
     nécessaire au latching du gate-array TO8D).
@@ -114,8 +114,8 @@ Conception : [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) +
     symboles + accents directs). Convention « accent direct sans SHIFT,
     chiffre AVEC SHIFT » alignée sur `pckeycode[]` de référence Coulom.
 - **Support joystick complet** (lot J0..J4b, PRs
-  [#169](https://github.com/Lesur-ai/dcmoto/pull/169)–[#178](https://github.com/Lesur-ai/dcmoto/pull/178)
-  + [#179](https://github.com/Lesur-ai/dcmoto/pull/179)) : convention bits
+  [#169](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/169)–[#178](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/178)
+  + [#179](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/179)) : convention bits
   LOGIQUE INVERSÉE (0 = appuyé, repos `{0xFF, 0xC0}`) figée par tests miroirs
   MO5/TO8D ; gate-array TO8D `SetJoystick` câblé sur `0xE7CC/0xE7CD` avec
   fix bug latent (lecture `joysAction | sound` au lieu de `sound` seul) ;
@@ -144,7 +144,7 @@ Conception : [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) +
 
 ### Corrigé
 
-- **Clignotement écran palette TO8D/TO9+** ([#197](https://github.com/Lesur-ai/dcmoto/issues/197)) :
+- **Clignotement écran palette TO8D/TO9+** ([#197](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/197)) :
   la publication du framebuffer par le Host est désormais cadencée sur la trame
   vidéo Thomson (`64×312` cycles), et le gate-array fige les segments vidéo au
   fil du balayage, comme DCTO9P/Theodore. Les changements de palette/page vidéo
@@ -162,24 +162,24 @@ Conception : [`DESIGN/MACHINE_PROFILES.md`](DESIGN/MACHINE_PROFILES.md) +
   flèches TO9+ ne sont plus injectées en parallèle dans le clavier firmware.
   Maintenir une direction ne fige donc plus l'émulation comme une pause, tout
   en conservant le comportement MO5/TO8D existant
-  ([#201](https://github.com/Lesur-ai/dcmoto/issues/201) /
-  [#202](https://github.com/Lesur-ai/dcmoto/pull/202)).
-- **Bug latent registre joystick TO8D `0xE7CD`** ([#171](https://github.com/Lesur-ai/dcmoto/pull/171)) :
+  ([#201](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/201) /
+  [#202](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/202)).
+- **Bug latent registre joystick TO8D `0xE7CD`** ([#171](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/171)) :
   la lecture retournait `g.sound` seul au lieu de `g.joysAction | g.sound`
   (cf. ref C `dcto8demulation.c Mgetto8d`). Silencieux tant que `joysAction`
   était toujours 0, mais aurait masqué les boutons fire J1/J2 dès le câblage
   joystick.
-- **Visuel overlay** ([#164](https://github.com/Lesur-ai/dcmoto/pull/164)) : champs
+- **Visuel overlay** ([#164](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/164)) : champs
   « Aucun fichier » survolés trop saillants et asymétriques. Rééquilibrage
   de la palette (`colField`/`colFieldHi`) + padding droit + retrait du
   `BackgroundImage` redondant du Container porteur.
 - **Montage de cartouche fidèle à la réf C `Loadmemo()`** : `MountCartridge`
   effectue désormais « RAZ RAM + `Initprog()` » au lieu d'un *hard reset* complet —
   préservant ports d'E/S, cadençage vidéo et crayon optique — pour le gate-array
-  **TO8D** ([#132](https://github.com/Lesur-ai/dcmoto/issues/132) /
-  [#134](https://github.com/Lesur-ai/dcmoto/pull/134)) **et** le cœur **MO5**
-  ([#138](https://github.com/Lesur-ai/dcmoto/issues/138) /
-  [#139](https://github.com/Lesur-ai/dcmoto/pull/139)). Une cartouche nil/vide
+  **TO8D** ([#132](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/132) /
+  [#134](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/134)) **et** le cœur **MO5**
+  ([#138](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/138) /
+  [#139](https://github.com/Lesur-ai/DCMOTO-Moderne/pull/139)). Une cartouche nil/vide
   désactive le banc (sémantique `Loadmemo(name="")`).
 
 ## [1.0.0] — 2026-06-07
@@ -230,9 +230,9 @@ cassette, disquette/DOS, cartouche, clavier, son), avec ROM et logiciels inclus.
 - **Crayon optique** : la fonction BASIC `PEN(...)` ne suit pas la souris (la ROM
   dérive la position d'un handshake matériel du crayon non émulé) — comportement
   identique à dcmo5 v11. Voir
-  [issue #86](https://github.com/Lesur-ai/dcmoto/issues/86).
+  [issue #86](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/86).
 - Extensions hors périmètre v1 (Nanoréseau, QD90-128, IN57-001, DI90-011).
 
-[Non publié]: https://github.com/Lesur-ai/dcmoto/compare/v2.1.0...HEAD
-[2.1.0]: https://github.com/Lesur-ai/dcmoto/releases/tag/v2.1.0
-[1.0.0]: https://github.com/Lesur-ai/dcmoto/releases/tag/v1.0.0
+[Non publié]: https://github.com/Lesur-ai/DCMOTO-Moderne/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/Lesur-ai/DCMOTO-Moderne/releases/tag/v2.1.0
+[1.0.0]: https://github.com/Lesur-ai/DCMOTO-Moderne/releases/tag/v1.0.0

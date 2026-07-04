@@ -9,15 +9,15 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Lesur-ai/dcmoto/internal/app"
-	"github.com/Lesur-ai/dcmoto/internal/app/config"
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/launch"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
-	"github.com/Lesur-ai/dcmoto/internal/machine/mo5"
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to8d" // enregistre le profil TO8D (init)
-	_ "github.com/Lesur-ai/dcmoto/internal/machine/to9p" // enregistre le profil TO9+ (init)
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/app"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/app/config"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/launch"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/mo5"
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to8d" // enregistre le profil TO8D (init)
+	_ "github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/to9p" // enregistre le profil TO9+ (init)
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
 )
 
 // version est la version du binaire, injectée à la compilation via

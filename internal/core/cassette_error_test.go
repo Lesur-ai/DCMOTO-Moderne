@@ -7,7 +7,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 // eofTape : cassette dont la lecture échoue immédiatement (fin de bande) et qui

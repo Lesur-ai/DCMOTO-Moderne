@@ -1,4 +1,4 @@
-module github.com/Lesur-ai/dcmoto
+module github.com/Lesur-ai/DCMOTO-Moderne
 
 go 1.26.3
 

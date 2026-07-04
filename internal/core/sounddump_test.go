@@ -11,7 +11,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 func TestSoundDump(t *testing.T) {

@@ -3,7 +3,7 @@ package mo5
 import (
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // TestNewFromConfigWiresIOError vérifie que le profil MO5 câble un puits d'erreurs E/S

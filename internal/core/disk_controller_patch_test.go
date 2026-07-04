@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
-	"github.com/Lesur-ai/dcmoto/internal/media"
-	"github.com/Lesur-ai/dcmoto/internal/media/impl"
-	"github.com/Lesur-ai/dcmoto/internal/spec"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media/impl"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/spec"
 )
 
 // ctrlPatchPoints : (offset depuis 0xA000, octet d'origine, octet patché).

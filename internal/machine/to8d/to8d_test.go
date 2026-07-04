@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 // testBootDate est la date FIXE injectée au boot dans les tests : elle garde le boot

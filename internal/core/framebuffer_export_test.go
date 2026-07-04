@@ -10,7 +10,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/core"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/core"
 )
 
 func TestROM_Long_ExportFramebuffer_3s(t *testing.T) {

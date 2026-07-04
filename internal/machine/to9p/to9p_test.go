@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Lesur-ai/dcmoto/internal/keyboard"
-	"github.com/Lesur-ai/dcmoto/internal/machine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/keyboard"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine"
 )
 
 func romTestPath() string { return filepath.Join("..", "..", "..", "rom", "to9p.rom") }

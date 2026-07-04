@@ -9,8 +9,8 @@ package gatearray
 import (
 	"errors"
 
-	"github.com/Lesur-ai/dcmoto/internal/engine"
-	"github.com/Lesur-ai/dcmoto/internal/media"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/engine"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/media"
 )
 
 // Le gate-array satisfait le contrat Device du moteur (mémoire, trap, timing,

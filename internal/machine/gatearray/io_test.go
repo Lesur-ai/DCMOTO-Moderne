@@ -9,8 +9,8 @@ import (
 	"io"
 	"testing"
 
-	"github.com/Lesur-ai/dcmoto/internal/cpu6809"
-	"github.com/Lesur-ai/dcmoto/internal/machine/gatearray"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/cpu6809"
+	"github.com/Lesur-ai/DCMOTO-Moderne/internal/machine/gatearray"
 )
 
 func newGAWithCPU() (*gatearray.GateArray, *cpu6809.CPU) {
