@@ -1,0 +1,63 @@
+MEGA SOFTS - (c) INFOGRAMES 1989 - TO8, TO9+
+--------------------------------------------
+
+Pack de 10 disquettes contenant 32 jeux Infogrames et Titus Software.
+Pour transferer sur disquettes Thomson, DCFDUTIL.EXE est disponible
+a la rubrique "Telechargement" du site http://dcmoto.free.fr.
+
+f  titre
+------------------------------- 01- Les athletes
+0: Karate
+   Runway2
+   Football
+   Dieux du stade 1
+   Dieux du stade 2
+1: non formatee
+
+------------------------------- 02- Les athletes n 2
+0: Les dieux de la mer              (1ere partie)
+1: Les dieux de la glisse
+
+------------------------------- 03- (pas de titre)
+0: Bivouac
+1: L'arche du captain Blood
+
+------------------------------- 04- Science fiction
+0: Bob Morane science fiction
+   Saphir
+   Entropie
+   La mine aux diamants
+1: vierge
+
+------------------------------- 05- Les chevaliers
+0: Bob Morane chevalerie
+   Sorcery
+   Sortileges
+   Vampire
+1: vierge
+
+------------------------------- 06- Les BD
+0: Les passagers du vent 1          (1ere partie)
+1: Les passagers du vent 2
+
+------------------------------- 07- Les BD
+0: La marque jaune               (2eme partie)
+1: Iznogoud
+
+------------------------------- 08- Les aventuriers
+0: Bob Morane jungle                (1ere partie)
+1: Las vegas
+   Heritage II
+   Marche a l'ombre
+
+------------------------------- 09- Les prives
+0: Les ripoux
+1: Dossier Boerhaave
+   L'affaire Vera Cruz
+   L'affaire Sydney
+
+------------------------------- 10- Titus classiques
+0: Glouton                          Volume 1
+   Envahisseurs                     (Basic 1 obligatoire)
+   Infernal breakout
+1: non formatee
