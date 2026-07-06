@@ -1,5 +1,6 @@
 .DS_Store
 # Builds
+/main
 release_builds/
 dist/
 dcmoto
@@ -7,6 +8,9 @@ dcmoto.exe
 dcmoto-darwin-*
 dcmoto-windows-*
 dcmoto-linux-*
+
+# Editor backups
+*~
 
 # Legacy
 dcmo5v11.0/
