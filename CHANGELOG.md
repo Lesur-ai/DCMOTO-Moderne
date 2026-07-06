@@ -10,7 +10,10 @@ versionnage [SemVer](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
-_Aucune entrée pour le moment._
+### Ajouté
+
+- Disquettes TO8 Megasofts `megasofts01_to8.fd` à `megasofts10_to8.fd`
+  dans `software/TO_fd/`, avec le descriptif `megasofts.txt`.
 
 ## [2.1.1] — 2026-07-06 — correctifs TO8D et voyants média
 
