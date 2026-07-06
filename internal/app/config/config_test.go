@@ -260,3 +260,104 @@ func TestPersistJoystickKeyboard(t *testing.T) {
 		}
 	})
 }
+
+func TestMediaIndicatorsPreference(t *testing.T) {
+	t.Run("nil store enables preference", func(t *testing.T) {
+		if got := config.MediaIndicatorsPreference(nil); !got {
+			t.Fatal("MediaIndicatorsPreference(nil) = false, want true")
+		}
+	})
+
+	t.Run("absent field defaults to enabled", func(t *testing.T) {
+		store, err := config.NewStoreAt(t.TempDir())
+		if err != nil {
+			t.Fatalf("NewStoreAt: %v", err)
+		}
+		if err := store.Save(config.Config{JoystickKeyboard: false}); err != nil {
+			t.Fatalf("Save: %v", err)
+		}
+		if got := config.MediaIndicatorsPreference(store); !got {
+			t.Fatal("MediaIndicatorsPreference(absent field) = false, want true")
+		}
+	})
+
+	t.Run("persisted false is restored", func(t *testing.T) {
+		store, err := config.NewStoreAt(t.TempDir())
+		if err != nil {
+			t.Fatalf("NewStoreAt: %v", err)
+		}
+		disabled := false
+		if err := store.Save(config.Config{MediaIndicators: &disabled}); err != nil {
+			t.Fatalf("Save: %v", err)
+		}
+		if got := config.MediaIndicatorsPreference(store); got {
+			t.Fatal("MediaIndicatorsPreference(store) = true, want false")
+		}
+	})
+}
+
+func TestPersistMediaIndicators(t *testing.T) {
+	t.Run("nil store is a no-op", func(t *testing.T) {
+		if err := config.PersistMediaIndicators(nil, false); err != nil {
+			t.Fatalf("PersistMediaIndicators(nil): %v", err)
+		}
+	})
+
+	t.Run("updates toggle and preserves other fields", func(t *testing.T) {
+		store, err := config.NewStoreAt(t.TempDir())
+		if err != nil {
+			t.Fatalf("NewStoreAt: %v", err)
+		}
+		before := config.Config{
+			LastTape:         "/media/game.k7",
+			LastDisk:         "/media/disk.fd",
+			LastCart:         "/media/cart.rom",
+			KeyboardMap:      "default",
+			JoystickKeyboard: true,
+		}
+		before.SetROMFor("mo5", "/rom/mo5.rom")
+		if err := store.Save(before); err != nil {
+			t.Fatalf("Save: %v", err)
+		}
+
+		if err := config.PersistMediaIndicators(store, false); err != nil {
+			t.Fatalf("PersistMediaIndicators(false): %v", err)
+		}
+
+		got, err := store.Load()
+		if err != nil {
+			t.Fatalf("Load: %v", err)
+		}
+		if got.MediaIndicators == nil || *got.MediaIndicators {
+			t.Fatalf("MediaIndicators = %v, want pointer to false", got.MediaIndicators)
+		}
+		if got.ROMFor("mo5") != "/rom/mo5.rom" || got.LastTape != before.LastTape ||
+			got.LastDisk != before.LastDisk || got.LastCart != before.LastCart ||
+			got.KeyboardMap != before.KeyboardMap || !got.JoystickKeyboard {
+			t.Fatalf("non-media-indicator fields not preserved: got=%+v before=%+v", got, before)
+		}
+	})
+
+	t.Run("load error does not overwrite config file", func(t *testing.T) {
+		dir := t.TempDir()
+		store, err := config.NewStoreAt(dir)
+		if err != nil {
+			t.Fatalf("NewStoreAt: %v", err)
+		}
+		configPath := filepath.Join(dir, "config.json")
+		if err := os.WriteFile(configPath, []byte("{"), 0o600); err != nil {
+			t.Fatalf("WriteFile: %v", err)
+		}
+
+		if err := config.PersistMediaIndicators(store, false); err == nil {
+			t.Fatal("PersistMediaIndicators(corrupt config) = nil, want error")
+		}
+		data, err := os.ReadFile(configPath)
+		if err != nil {
+			t.Fatalf("ReadFile: %v", err)
+		}
+		if string(data) != "{" {
+			t.Fatalf("corrupt config was overwritten: %q", string(data))
+		}
+	})
+}

@@ -6,7 +6,7 @@ Portage moderne de l'émulateur Thomson [DCMOTO](http://dcmoto.free.fr/) (inclua
 Ce projet est un logiciel libre sous licence **GNU GPL v3+**. Voir `LICENSE`
 et `NOTICE`.
 
-**Version : 2.1.0** — historique dans [`CHANGELOG.md`](CHANGELOG.md).
+**Version : 2.1.1** — historique dans [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Captures d'écran
 
@@ -27,7 +27,8 @@ et `NOTICE`.
   - Cassette `.k7`
   - Disquette `.fd` (densité variable + DOS contrôleur intégré)
   - Cartouche MEMO5 / ROM `.rom`
-- **Menu de pilotage in-app (Overlay)** (touche `Échap` ou `Start` sur gamepad) : charger/éjecter les médias à chaud, changer de machine, configurer les joysticks, Reset / Init prog.
+- **Voyants média** : LEDs K7/FD dans la fenêtre émulateur, vertes quand un média est monté et rouges pendant un accès.
+- **Menu de pilotage in-app (Overlay)** (touche `Échap` ou `Start` sur gamepad) : charger/éjecter les médias à chaud, changer de machine, configurer les joysticks et les LEDs média, Reset / Init prog / Quitter.
 - **Saisie programmée** `--exec` (taper une séquence au démarrage) et **copier-coller** depuis le presse-papier (`Cmd+V` / `Ctrl+V`).
 - **Préférences utilisateur** mémorisées et portables (Windows / macOS / Linux).
 - ROMs systèmes et logiciels **inclus dans le dépôt** (voir [`DESIGN/LICENSING.md`](DESIGN/LICENSING.md)).
@@ -208,8 +209,12 @@ go run ./cmd/dcmoto -rom rom/mo5-v1.1.rom -cart software/memo5/glouton-memo5.rom
 | Fermeture fenêtre | Quitter |
 
 Dans le **menu** (`Échap`) : flèches pour naviguer, `Entrée` pour valider —
-charger/éjecter cassette, disquette, cartouche ; `Init prog` (reset doux) ;
-`Reset machine`.
+charger/éjecter cassette, disquette, cartouche ; basculer `Joystk` et les
+`LEDs` média ; `Init prog` (reset doux) ; `Reset machine` ; `Quitter`.
+
+Le joystick clavier est volontairement **OFF par défaut sur MO5**, même si une
+préférence globale ON a été mémorisée depuis une machine TO. Il reste activable
+manuellement depuis l'overlay.
 
 ### Saisie programmée (`--exec`) et copier-coller
 

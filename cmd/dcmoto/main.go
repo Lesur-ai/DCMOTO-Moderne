@@ -135,6 +135,7 @@ func main() {
 	// Descripteurs des médias ouverts au démarrage, confiés ensuite à l'App
 	// pour fermeture propre en cas de remplacement via le menu.
 	var tapeCloser, diskCloser io.Closer
+	var tapeActivity, diskActivity *app.MediaActivity
 
 	// ROM système
 	if *machineID == "mo5" {
@@ -162,7 +163,8 @@ func main() {
 			fmt.Fprintln(os.Stderr, "dcmoto: cassette:", err)
 			os.Exit(1)
 		}
-		opts.Tape = tape
+		tapeActivity = app.NewMediaActivity()
+		opts.Tape = app.WrapTapeActivity(tape, tapeActivity)
 		tapeCloser = tape
 	}
 
@@ -173,7 +175,8 @@ func main() {
 			fmt.Fprintln(os.Stderr, "dcmoto: disquette:", err)
 			os.Exit(1)
 		}
-		opts.Disk = disk
+		diskActivity = app.NewMediaActivity()
+		opts.Disk = app.WrapDiskActivity(disk, diskActivity)
 		diskCloser = disk
 	}
 
@@ -269,6 +272,12 @@ func main() {
 	a.SetROMResolver(romResolverFor(store)) // ROM des autres machines (changement à chaud, Inc 5)
 	a.SetMediaNames(*romPath, *tapePath, *diskPath, *cartPath)
 	a.SetStartupMediaClosers(tapeCloser, diskCloser)
+	a.SetStartupMediaActivities(tapeActivity, diskActivity)
+	a.SetJoystickKBEnabled(initialJoystickKeyboardPreference(*machineID, store))
+	a.SetMediaIndicatorsEnabled(config.MediaIndicatorsPreference(store))
+	a.SetOnMediaIndicatorsChange(func(enabled bool) {
+		_ = config.PersistMediaIndicators(store, enabled)
+	})
 	if *noAudio {
 		a.DisableAudio()
 	}
@@ -369,6 +378,7 @@ func runLauncher(initial machine.Config, noAudio bool, store *config.Store, mach
 	// haut), pour que « dcmoto » seul la propose en pré-remplissage au lancement suivant.
 	// Seul le chemin ROM est mémorisé, par cohérence avec le chemin CLI.
 	a.SetOnStart(func(profileID string, cfg machine.Config) {
+		a.SetJoystickKBEnabled(initialJoystickKeyboardPreference(profileID, store))
 		if store == nil {
 			return
 		}
@@ -380,15 +390,24 @@ func runLauncher(initial machine.Config, noAudio bool, store *config.Store, mach
 		c.SetROMFor(profileID, rom) // mémorise la ROM PAR machine (n'écrase pas les autres)
 		store.Save(c)
 	})
-	// B9 : restaurer l'état du toggle joystick clavier depuis la config (préférence
-	// GLOBALE, pas par machine — séance design 29/06/2026).
-	a.SetJoystickKBEnabled(config.JoystickKeyboardPreference(store))
+	a.SetJoystickKBEnabled(initialJoystickKeyboardPreference(profiles[selected].ID, store))
 	// Persister le toggle joystick clavier à chaque changement (overlay « Key Joystk »).
 	a.SetOnJoystickKBChange(func(enabled bool) {
 		_ = config.PersistJoystickKeyboard(store, enabled)
+	})
+	a.SetMediaIndicatorsEnabled(config.MediaIndicatorsPreference(store))
+	a.SetOnMediaIndicatorsChange(func(enabled bool) {
+		_ = config.PersistMediaIndicators(store, enabled)
 	})
 	if err := app.Run(a); err != nil && !errors.Is(err, app.ErrUserQuit) {
 		fmt.Fprintln(os.Stderr, "dcmoto:", err)
 		os.Exit(1)
 	}
+}
+
+func initialJoystickKeyboardPreference(machineID string, store *config.Store) bool {
+	if machineID == "mo5" {
+		return false
+	}
+	return config.JoystickKeyboardPreference(store)
 }

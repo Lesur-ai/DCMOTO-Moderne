@@ -89,6 +89,26 @@ func TestReadE7CDMusic(t *testing.T) {
 	}
 }
 
+// TestReadE7CEControlRegisterConstant verrouille la référence DCTO8D/DCTO9P/
+// Theodore : le registre de contrôle CRA lu en e7ce retourne 0x04. Le logiciel
+// peut écrire e7ce pour piloter le mux joystick via port[0x0e], mais une lecture
+// ne reflète pas cette écriture. Sans ce cas explicite, la valeur zéro du port
+// après reset fait croire au firmware/jeu que le contrôle joystick n'est pas armé.
+func TestReadE7CEControlRegisterConstant(t *testing.T) {
+	g := newGA()
+	if v := g.Read8(0xE7CE); v != 0x04 {
+		t.Fatalf("e7ce après reset = 0x%02X, want 0x04", v)
+	}
+	g.Write8(0xE7CE, 0x00)
+	if v := g.Read8(0xE7CE); v != 0x04 {
+		t.Fatalf("e7ce après écriture 0x00 = 0x%02X, want 0x04", v)
+	}
+	g.Write8(0xE7CE, 0xFF)
+	if v := g.Read8(0xE7CE); v != 0x04 {
+		t.Fatalf("e7ce après écriture 0xFF = 0x%02X, want 0x04", v)
+	}
+}
+
 // TestSetJoystick_RestAfterInitprog (Inc J1a, codex P2) : Initprog() est un
 // reset DOUX (RAM/ports conservés) mais doit relâcher les entrées transitoires
 // — y compris le joystick. Sans ce reset, déclencher Initprog (bouton overlay,
@@ -309,6 +329,72 @@ func TestTrapDiskWriteThenFormat(t *testing.T) {
 	g.Trap(0x18) // formatDisk
 	if !disk.formatted {
 		t.Error("FormatUnit non appelé sur trap 0x18")
+	}
+}
+
+func TestFloppyControllerStatusRegisters(t *testing.T) {
+	g := newGA()
+	if v := g.Read8(0xE7D0); v != 0x80 {
+		t.Fatalf("e7d0 sans fonction intelligente = 0x%02X, want 0x80", v)
+	}
+	g.Write8(0xE7D0, 0x01)
+	if v := g.Read8(0xE7D0); v != 0x82 {
+		t.Fatalf("e7d0 fonction intelligente en cours = 0x%02X, want 0x82", v)
+	}
+	if v := g.Read8(0xE7D1); v != 0x4A {
+		t.Fatalf("e7d1 statut lecteur = 0x%02X, want 0x4A", v)
+	}
+}
+
+func TestFloppyControllerProtectionByteFromCMPB(t *testing.T) {
+	romBasic := romBasicPattern()
+	copy(romBasic[0x0000:], []byte{
+		0x8E, 0xE7, 0xD0, // LDX #$E7D0
+		0xE6, 0x03, // LDB $03,X ; lit E7D3
+		0xC1, 0xFB, // CMPB #$FB
+	})
+	romMon := romMonPattern()
+	romMon[0x1FFE], romMon[0x1FFF] = 0x00, 0x00
+	g := gatearray.New(romMon, romBasic)
+	cpu := cpu6809.New(g)
+	g.AttachCPU(cpu)
+	g.Write8(0xE7C3, 0x04) // active la ROM interne où vit le mini-programme
+	cpu.Reset()
+
+	cpu.Step() // LDX #$E7D0
+	cpu.Step() // LDB $03,X
+	if b := cpu.RegB(); b != 0xFB {
+		t.Fatalf("E7D3 via LDB $03,X = 0x%02X, want l'immédiat CMPB suivant 0xFB", b)
+	}
+	cpu.Step() // CMPB #$FB
+	if cpu.RegCC()&cpu6809.FlagZ == 0 {
+		t.Fatalf("CMPB #$FB devrait réussir : CC=0x%02X", cpu.RegCC())
+	}
+}
+
+func TestFloppyControllerProtectionByteFromCMPA(t *testing.T) {
+	romBasic := romBasicPattern()
+	copy(romBasic[0x0000:], []byte{
+		0x8E, 0xE7, 0xD0, // LDX #$E7D0
+		0xA6, 0x03, // LDA $03,X ; lit E7D3
+		0x81, 0x7C, // CMPA #$7C
+	})
+	romMon := romMonPattern()
+	romMon[0x1FFE], romMon[0x1FFF] = 0x00, 0x00
+	g := gatearray.New(romMon, romBasic)
+	cpu := cpu6809.New(g)
+	g.AttachCPU(cpu)
+	g.Write8(0xE7C3, 0x04) // active la ROM interne où vit le mini-programme
+	cpu.Reset()
+
+	cpu.Step() // LDX #$E7D0
+	cpu.Step() // LDA $03,X
+	if a := cpu.RegA(); a != 0x7C {
+		t.Fatalf("E7D3 via LDA $03,X = 0x%02X, want l'immédiat CMPA suivant 0x7C", a)
+	}
+	cpu.Step() // CMPA #$7C
+	if cpu.RegCC()&cpu6809.FlagZ == 0 {
+		t.Fatalf("CMPA #$7C devrait réussir : CC=0x%02X", cpu.RegCC())
 	}
 }
 

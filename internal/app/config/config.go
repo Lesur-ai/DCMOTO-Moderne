@@ -33,6 +33,10 @@ type Config struct {
 	// design 29/06/2026) : c'est un choix utilisateur ("je veux utiliser mon
 	// clavier comme joystick"), pas une propriété du modèle Thomson.
 	JoystickKeyboard bool `json:"joystick_keyboard,omitempty"`
+
+	// MediaIndicators persiste l'affichage des voyants K7/FD. Pointeur volontaire :
+	// nil = ancienne config / valeur absente ⇒ affichage activé par défaut.
+	MediaIndicators *bool `json:"media_indicators,omitempty"`
 }
 
 // ROMFor retourne le chemin ROM mémorisé pour la machine machineID, ou "" si aucun.
@@ -138,6 +142,35 @@ func PersistJoystickKeyboard(store *Store, enabled bool) error {
 		return err
 	}
 	cfg.JoystickKeyboard = enabled
+	return store.Save(cfg)
+}
+
+// MediaIndicatorsPreference lit la préférence globale des voyants média.
+// Défaut ON : l'indicateur est une aide de diagnostic, et les anciennes configs
+// ne doivent pas le désactiver par absence de champ.
+func MediaIndicatorsPreference(store *Store) bool {
+	if store == nil {
+		return true
+	}
+	cfg, err := store.Load()
+	if err != nil || cfg.MediaIndicators == nil {
+		return true
+	}
+	return *cfg.MediaIndicators
+}
+
+// PersistMediaIndicators persiste l'affichage des voyants média en préservant les
+// autres champs. Même discipline que PersistJoystickKeyboard : pas d'écriture si
+// la config existante est illisible.
+func PersistMediaIndicators(store *Store, enabled bool) error {
+	if store == nil {
+		return nil
+	}
+	cfg, err := store.Load()
+	if err != nil {
+		return err
+	}
+	cfg.MediaIndicators = &enabled
 	return store.Save(cfg)
 }
 

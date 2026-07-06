@@ -12,6 +12,22 @@ versionnage [SemVer](https://semver.org/lang/fr/).
 
 _Aucune entrée pour le moment._
 
+## [2.1.1] — 2026-07-06 — correctifs TO8D et voyants média
+
+### Ajouté
+
+- Voyants média K7/FD dans la fenêtre émulateur : vert quand un média est
+  monté, rouge pendant un accès, avec toggle overlay « LEDs : ON/OFF »
+  persisté dans les préférences utilisateur.
+
+### Corrigé
+
+- Compatibilité TO8D disque/protections : lecture des registres `0xE7CE` et
+  `0xE7D0..0xE7D3` alignée sur les comportements DCTO8D/DCTO9P nécessaires à
+  des titres Megasofts comme Bivouac.
+- Le joystick clavier démarre OFF par défaut sur MO5, même si une préférence
+  globale ON a été mémorisée depuis une machine TO.
+
 ## [2.1.0] — 2026-07-04 — v2.1, multi-machines (TO8D + TO9+)
 
 Généralisation **multi-machines** : émulation du **TO8D** et du **TO9+** en
@@ -233,6 +249,7 @@ cassette, disquette/DOS, cartouche, clavier, son), avec ROM et logiciels inclus.
   [issue #86](https://github.com/Lesur-ai/DCMOTO-Moderne/issues/86).
 - Extensions hors périmètre v1 (Nanoréseau, QD90-128, IN57-001, DI90-011).
 
-[Non publié]: https://github.com/Lesur-ai/DCMOTO-Moderne/compare/v2.1.0...HEAD
+[Non publié]: https://github.com/Lesur-ai/DCMOTO-Moderne/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/Lesur-ai/DCMOTO-Moderne/releases/tag/v2.1.1
 [2.1.0]: https://github.com/Lesur-ai/DCMOTO-Moderne/releases/tag/v2.1.0
 [1.0.0]: https://github.com/Lesur-ai/DCMOTO-Moderne/releases/tag/v1.0.0
