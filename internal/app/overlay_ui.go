@@ -84,6 +84,10 @@ type overlayUI struct {
 	joystickKBEnabled bool
 	toggleJoystick    bool
 
+	// Voyants média : toggle global pour afficher/masquer le bandeau K7/FD.
+	mediaIndicatorsEnabled bool
+	toggleMediaIndicators  bool
+
 	*uiKit
 }
 
@@ -104,11 +108,12 @@ func newOverlayUI(profile machine.MachineProfile, profiles []machine.MachineProf
 // open (ré)initialise la vue à l'ouverture : profil + config de travail = clone de l'état
 // RÉELLEMENT monté (cur), répertoire média, état joystick clavier (pour le bouton de la
 // rangée Système), efface les erreurs, reconstruit.
-func (o *overlayUI) open(profile machine.MachineProfile, mediaDir string, cur machine.Config, joystickKBEnabled bool) {
+func (o *overlayUI) open(profile machine.MachineProfile, mediaDir string, cur machine.Config, joystickKBEnabled, mediaIndicatorsEnabled bool) {
 	o.profile = profile
 	o.mediaDir = mediaDir
 	o.next = cloneConfig(cur)
 	o.joystickKBEnabled = joystickKBEnabled
+	o.mediaIndicatorsEnabled = mediaIndicatorsEnabled
 	o.errText = ""
 	o.rebuild()
 }
@@ -123,6 +128,11 @@ func (o *overlayUI) setJoystickKBEnabled(b bool) {
 	o.rebuild()
 }
 
+func (o *overlayUI) setMediaIndicatorsEnabled(b bool) {
+	o.mediaIndicatorsEnabled = b
+	o.rebuild()
+}
+
 // takeApply/takeReset/takeInitprog/takeToggleJoystick consomment un signal one-shot.
 func (o *overlayUI) takeApply() bool    { v := o.apply; o.apply = false; return v }
 func (o *overlayUI) takeReset() bool    { v := o.reset; o.reset = false; return v }
@@ -130,6 +140,11 @@ func (o *overlayUI) takeInitprog() bool { v := o.initprog; o.initprog = false; r
 func (o *overlayUI) takeToggleJoystick() bool {
 	v := o.toggleJoystick
 	o.toggleJoystick = false
+	return v
+}
+func (o *overlayUI) takeToggleMediaIndicators() bool {
+	v := o.toggleMediaIndicators
+	o.toggleMediaIndicators = false
 	return v
 }
 
@@ -266,28 +281,32 @@ func (o *overlayUI) buildMain(card *widget.Container) {
 	)
 	sys.AddChild(o.button("Reset", o.btnImg, o.txtColor, func() { o.reset = true }))
 	sys.AddChild(o.button("Init prog", o.btnImg, o.txtColor, func() { o.initprog = true }))
-	sys.AddChild(o.button("Quitter", o.btnImg, o.txtColor, func() { o.quit = true }))
-	// Joystick clavier (Inc J3a) : toggle ON/OFF. Quand ON, WASD est intercepté
-	// pour J2 (ne tape plus en BASIC) et le mapping flèches/Shift active aussi
-	// les bits joystick. Couleur accentuée (btnSel) quand ON pour indicateur
-	// visuel immédiat ; standard (btnImg) quand OFF.
-	// Libellé « Key Joystk » (≠ « Joystick » seul) : explicite que c'est la
-	// SIMULATION CLAVIER du joystick. Les gamepads matériels (J4b) sont
-	// toujours actifs sans toggle — ils n'apparaissent pas ici.
-	joyImg, joyText, joyLabel := o.btnImg, o.txtColor, "Key Joystk : OFF"
-	if o.joystickKBEnabled {
-		joyImg, joyText, joyLabel = o.btnSel, o.txtOnSel, "Key Joystk : ON"
-	}
-	sys.AddChild(o.button(joyLabel, joyImg, joyText, func() { o.toggleJoystick = true }))
 	// Changement de machine : DANS la même rangée (compact — une section séparée ferait
 	// déborder la carte au-delà de la fenêtre 672×432). Affiché seulement s'il existe une
 	// AUTRE machine (overlay.SwitchTargets, pur). → vue de choix/confirmation.
 	if len(overlay.SwitchTargets(o.profiles, o.profile.ID)) > 0 {
-		sys.AddChild(o.button("Changer machine", o.btnImg, o.txtColor, func() {
+		sys.AddChild(o.button("Machines", o.btnImg, o.txtColor, func() {
 			o.model.GoConfirmSwitch()
 			o.rebuild()
 		}))
 	}
+	// Joystick clavier (Inc J3a) : toggle ON/OFF. Quand ON, WASD est intercepté
+	// pour J2 (ne tape plus en BASIC) et le mapping flèches/Shift active aussi
+	// les bits joystick. Couleur accentuée (btnSel) quand ON pour indicateur
+	// visuel immédiat ; standard (btnImg) quand OFF.
+	// Libellé court « Joystk » : la rangée système doit rester sur une seule ligne.
+	// Les gamepads matériels (J4b) sont toujours actifs sans toggle — ils
+	// n'apparaissent pas ici.
+	joyImg, joyText, joyLabel := o.btnImg, o.txtColor, "Joystk : OFF"
+	if o.joystickKBEnabled {
+		joyImg, joyText, joyLabel = o.btnSel, o.txtOnSel, "Joystk : ON"
+	}
+	sys.AddChild(o.button(joyLabel, joyImg, joyText, func() { o.toggleJoystick = true }))
+	mediaImg, mediaText, mediaLabel := o.btnImg, o.txtColor, "LEDs : OFF"
+	if o.mediaIndicatorsEnabled {
+		mediaImg, mediaText, mediaLabel = o.btnSel, o.txtOnSel, "LEDs : ON"
+	}
+	sys.AddChild(o.button(mediaLabel, mediaImg, mediaText, func() { o.toggleMediaIndicators = true }))
 	card.AddChild(sys)
 
 	if o.errText != "" {
@@ -300,7 +319,15 @@ func (o *overlayUI) buildMain(card *widget.Container) {
 	card.AddChild(o.separator())
 	// Action primaire : applique les changements média de next (montage/éjection) puis
 	// reprend l'émulation. Aucun changement → aucune op (LiveMediaOps), simple reprise.
-	card.AddChild(o.primaryButton("Appliquer et reprendre", func() { o.apply = true }))
+	actions := widget.NewContainer(
+		widget.ContainerOpts.Layout(widget.NewRowLayout(
+			widget.RowLayoutOpts.Direction(widget.DirectionHorizontal),
+			widget.RowLayoutOpts.Spacing(8),
+		)),
+	)
+	actions.AddChild(o.button("Appliquer et reprendre", o.btnSel, o.txtOnSel, func() { o.apply = true }))
+	actions.AddChild(o.button("Quitter", o.btnImg, o.txtColor, func() { o.quit = true }))
+	card.AddChild(actions)
 }
 
 // buildConfirmSwitch rend la vue de changement de machine : toutes les cibles possibles

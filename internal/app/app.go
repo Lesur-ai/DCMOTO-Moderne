@@ -87,10 +87,11 @@ type App struct {
 	// avec ebitenui. Non-nil ⇒ mode launcher (host==nil, aucune émulation). À
 	// l'action « Démarrer », l'App instancie la machine, monte les médias, démarre
 	// le Host puis repasse launcher=nil (mode émulateur).
-	launcher           *launcher
-	onStart            func(profileID string, cfg machine.Config) // hook de persistance config à l'action « Démarrer » (mode launcher)
-	onJoystickKBChange func(enabled bool)                         // hook de persistance du toggle joystick clavier (B9)
-	hostStarted        bool                                       // host.Start() a été appelé (garde le Stop différé)
+	launcher                *launcher
+	onStart                 func(profileID string, cfg machine.Config) // hook de persistance config à l'action « Démarrer » (mode launcher)
+	onJoystickKBChange      func(enabled bool)                         // hook de persistance du toggle joystick clavier (B9)
+	onMediaIndicatorsChange func(enabled bool)                         // hook de persistance du toggle voyants média
+	hostStarted             bool                                       // host.Start() a été appelé (garde le Stop différé)
 
 	// overlay : machine d'état PURE de l'overlay Échap (zéro-value = fermé, aucun
 	// constructeur). Ouvert/fermé par Échap (cf. Update). overlayUI est l'arbre ebitenui,
@@ -139,6 +140,10 @@ type App struct {
 	diskName   string
 	cartName   string
 
+	tapeActivity           *MediaActivity
+	diskActivity           *MediaActivity
+	mediaIndicatorsEnabled bool
+
 	smoke smokeState
 }
 
@@ -150,7 +155,7 @@ type App struct {
 // Params consommé par l'overlay — l'interface machine.Machine runtime ne porte pas
 // cette identité statique, d'où le passage explicite du profil.
 func New(m machine.Machine, profile machine.MachineProfile) *App {
-	a := &App{mediaDir: startMediaDir(os.Getwd, os.UserHomeDir)}
+	a := &App{mediaDir: startMediaDir(os.Getwd, os.UserHomeDir), mediaIndicatorsEnabled: true}
 	a.attachMachine(m, profile)
 	return a
 }
@@ -163,7 +168,7 @@ func New(m machine.Machine, profile machine.MachineProfile) *App {
 // profil présélectionné selected (cf. --machine, résolu par launch.SelectIndex ; ex.
 // chemin ROM mémorisé en config). noAudio diffère/inhibe l'audio.
 func NewLauncher(profiles []machine.MachineProfile, mediaDir string, noAudio bool, initial machine.Config, selected int) *App {
-	a := &App{mediaDir: mediaDir, audioDisabled: noAudio}
+	a := &App{mediaDir: mediaDir, audioDisabled: noAudio, mediaIndicatorsEnabled: true}
 	a.launcher = newLauncher(profiles, mediaDir, osListerUI, initial, selected)
 	return a
 }
@@ -200,10 +205,18 @@ func (a *App) SetROMResolver(fn func(machineID string) string) {
 // le nouvel état (true = activé). nil (défaut) → pas de persistance.
 func (a *App) SetOnJoystickKBChange(fn func(enabled bool)) { a.onJoystickKBChange = fn }
 
+// SetOnMediaIndicatorsChange injecte le callback de persistance du toggle voyants média.
+func (a *App) SetOnMediaIndicatorsChange(fn func(enabled bool)) {
+	a.onMediaIndicatorsChange = fn
+}
+
 // SetJoystickKBEnabled fixe l'état initial du toggle joystick clavier, typiquement
 // depuis la config persistante au démarrage (B9). Sans appel, le toggle est false
 // (désactivé par défaut).
 func (a *App) SetJoystickKBEnabled(b bool) { a.joystickKBEnabled = b }
+
+// SetMediaIndicatorsEnabled fixe l'état initial des voyants média. Défaut : true.
+func (a *App) SetMediaIndicatorsEnabled(b bool) { a.mediaIndicatorsEnabled = b }
 
 // attachMachine câble une machine sur l'App (tampons d'affichage, Host, modèle
 // clavier). Partagé par New (CLI direct) et par la transition launcher→émulateur :
@@ -226,6 +239,13 @@ func (a *App) attachMachine(m machine.Machine, profile machine.MachineProfile) {
 	a.keys = keyboard.NewInjector(kbModel, keyboard.DefaultHoldFrames, keyboard.DefaultGapFrames)
 	a.kbModel = kbModel
 	a.liveKeys = make(map[ebiten.Key]liveKey)
+	a.applyMachineInputDefaults(profile)
+}
+
+func (a *App) applyMachineInputDefaults(profile machine.MachineProfile) {
+	if profile.ID == "mo5" {
+		a.joystickKBEnabled = false
+	}
 }
 
 // startMediaDir choisit le répertoire de départ du navigateur de fichiers (overlay) : le
@@ -268,6 +288,13 @@ func (a *App) SetExec(seq string, delaySeconds float64) {
 func (a *App) SetStartupMediaClosers(tape, disk io.Closer) {
 	a.tapeCloser = tape
 	a.diskCloser = disk
+}
+
+// SetStartupMediaActivities relie les médias déjà montés avant app.New (boot CLI)
+// aux voyants d'activité dessinés par l'App.
+func (a *App) SetStartupMediaActivities(tape, disk *MediaActivity) {
+	a.tapeActivity = tape
+	a.diskActivity = disk
 }
 
 // Update est appelé à chaque tick (60 Hz) : il publie les entrées vers le Host
@@ -486,7 +513,20 @@ func (a *App) updateOverlay() error {
 			a.onJoystickKBChange(a.joystickKBEnabled)
 		}
 	}
+	if a.overlayUI.takeToggleMediaIndicators() {
+		a.toggleMediaIndicators()
+	}
 	return nil
+}
+
+func (a *App) toggleMediaIndicators() {
+	a.mediaIndicatorsEnabled = !a.mediaIndicatorsEnabled
+	if a.overlayUI != nil {
+		a.overlayUI.setMediaIndicatorsEnabled(a.mediaIndicatorsEnabled)
+	}
+	if a.onMediaIndicatorsChange != nil {
+		a.onMediaIndicatorsChange(a.mediaIndicatorsEnabled)
+	}
 }
 
 // switchMachine bascule à chaud vers la machine cible (depuis la vue ConfirmSwitch).
@@ -549,7 +589,7 @@ func (a *App) openOverlayUI() {
 	if a.overlayUI == nil {
 		a.overlayUI = newOverlayUI(a.currentProfile, machine.Profiles(), &a.overlay, osListerUI, newUIKit())
 	}
-	a.overlayUI.open(a.currentProfile, a.mediaDir, a.CurrentConfig(), a.joystickKBEnabled)
+	a.overlayUI.open(a.currentProfile, a.mediaDir, a.CurrentConfig(), a.joystickKBEnabled, a.mediaIndicatorsEnabled)
 }
 
 // applyLiveOps applique les changements média de `next` vs l'état RÉELLEMENT monté
@@ -595,8 +635,7 @@ func (a *App) mountLive(key, path string) error {
 			return err
 		}
 		a.closeTape()
-		a.host.MountTape(t)
-		a.tapeCloser = t
+		a.mountTapeMedia(t, t)
 		a.tapeName = filepath.Base(path)
 		a.mediaDir = filepath.Dir(path)
 	case machine.KeyDisk:
@@ -605,8 +644,7 @@ func (a *App) mountLive(key, path string) error {
 			return err
 		}
 		a.closeDisk()
-		a.host.MountDisk(d)
-		a.diskCloser = d
+		a.mountDiskMedia(d, d)
 		a.diskName = filepath.Base(path)
 		a.mediaDir = filepath.Dir(path)
 	case machine.KeyCart:
@@ -621,6 +659,20 @@ func (a *App) mountLive(key, path string) error {
 		return fmt.Errorf("clé média inconnue : %s", key)
 	}
 	return nil
+}
+
+func (a *App) mountTapeMedia(t media.Tape, closer io.Closer) {
+	activity := NewMediaActivity()
+	a.host.MountTape(WrapTapeActivity(t, activity))
+	a.tapeCloser = closer
+	a.tapeActivity = activity
+}
+
+func (a *App) mountDiskMedia(d media.Disk, closer io.Closer) {
+	activity := NewMediaActivity()
+	a.host.MountDisk(WrapDiskActivity(d, activity))
+	a.diskCloser = closer
+	a.diskActivity = activity
 }
 
 // ejectLive éjecte un média à chaud, par clé conventionnelle (parallèle des branches
@@ -669,6 +721,7 @@ func (a *App) closeTape() {
 		a.tapeCloser.Close()
 		a.tapeCloser = nil
 	}
+	a.tapeActivity = nil
 }
 
 func (a *App) closeDisk() {
@@ -676,6 +729,7 @@ func (a *App) closeDisk() {
 		a.diskCloser.Close()
 		a.diskCloser = nil
 	}
+	a.diskActivity = nil
 }
 
 // CurrentProfile retourne le profil de la machine actuellement attachée — source du
@@ -768,16 +822,14 @@ func (a *App) mountMedia(mounts []uimodel.MediaMount) {
 		case machine.KeyTape:
 			if t, err := impl.OpenTape(mt.Path, false); err == nil {
 				a.closeTape()
-				a.host.MountTape(t)
-				a.tapeCloser = t
+				a.mountTapeMedia(t, t)
 				a.tapeName = filepath.Base(mt.Path)
 				a.mediaDir = filepath.Dir(mt.Path)
 			}
 		case machine.KeyDisk:
 			if d, err := impl.OpenDisk(mt.Path, false); err == nil {
 				a.closeDisk()
-				a.host.MountDisk(d)
-				a.diskCloser = d
+				a.mountDiskMedia(d, d)
 				a.diskName = filepath.Base(mt.Path)
 				a.mediaDir = filepath.Dir(mt.Path)
 			}
@@ -827,6 +879,9 @@ func (a *App) Draw(screen *ebiten.Image) {
 		float64(screen.Bounds().Dy())/float64(a.fh),
 	)
 	screen.DrawImage(a.fb, op)
+	if a.mediaIndicatorsEnabled {
+		a.drawMediaIndicators(screen)
+	}
 }
 
 func (a *App) captureSmokeFrame(screen *ebiten.Image) {

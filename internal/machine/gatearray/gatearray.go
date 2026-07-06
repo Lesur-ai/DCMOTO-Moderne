@@ -635,6 +635,10 @@ func (g *GateArray) readIO(a uint16) byte {
 			return g.joysAction | g.sound
 		}
 		return g.port[0x0d]
+	case 0xe7ce:
+		// Registre de contrôle CRA : DCTO8D/DCTO9P/Theodore renvoient 0x04 en
+		// lecture, même si l'écriture alimente port[0x0e] pour le mux joystick.
+		return 0x04
 	case 0xe7c6:
 		return byte(g.timer6846 >> 11 & 0xff) // timer, octet de poids fort
 	case 0xe7c7:
@@ -670,6 +674,9 @@ func (g *GateArray) readIO(a uint16) byte {
 		// boot : le moniteur scrute ce registre pour se caler sur le balayage (#118).
 		return g.port[0x24]&0x01 | byte(g.initn()) | byte(g.iniln())
 	default:
+		if a >= 0xe7d0 && a <= 0xe7d3 {
+			return g.readFloppyController(a)
+		}
 		if a < 0xe7c0 {
 			return g.romsysRead(int(a))
 		}
@@ -678,4 +685,42 @@ func (g *GateArray) readIO(a uint16) byte {
 		}
 		return g.romsysRead(int(a))
 	}
+}
+
+func (g *GateArray) readFloppyController(a uint16) byte {
+	switch a {
+	case 0xe7d0:
+		if g.port[a&0x3f]&0x03 != 0 {
+			return 0x82
+		}
+		return 0x80
+	case 0xe7d1:
+		return 0x4a
+	case 0xe7d3:
+		if g.cpu == nil {
+			return g.port[a&0x3f]
+		}
+		pc := g.cpu.Snapshot().PC
+		switch {
+		case g.peekProtectionCode(pc) == 0xc1 &&
+			g.peekProtectionCode(pc-1) == 0x03 &&
+			g.peekProtectionCode(pc-2) == 0xe6:
+			return g.peekProtectionCode(pc + 1)
+		case g.peekProtectionCode(pc) == 0x81 &&
+			g.peekProtectionCode(pc-1) == 0x03 &&
+			g.peekProtectionCode(pc-2) == 0xa6:
+			return g.peekProtectionCode(pc + 1)
+		default:
+			return g.port[a&0x3f]
+		}
+	default:
+		return g.port[a&0x3f]
+	}
+}
+
+func (g *GateArray) peekProtectionCode(a uint16) byte {
+	if a >= 0xe7d0 && a <= 0xe7d3 {
+		return g.port[a&0x3f]
+	}
+	return g.Read8(a)
 }
