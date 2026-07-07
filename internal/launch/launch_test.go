@@ -36,6 +36,7 @@ func TestDirectBootSupported(t *testing.T) {
 	}{
 		{"mo5", true},
 		{"to9p", true},
+		{"to9", false},
 		{"to8d", false},
 		{"inconnu", false},
 	}

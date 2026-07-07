@@ -163,6 +163,13 @@ func NewTO9P(romMon, romBasic []byte) *GateArray {
 	return newWithKeyboard(romMon, romBasic, to9pKeyboardDef)
 }
 
+// NewTO9 construit un gate-array avec la variante clavier TO9/TO9+. Le TO9 publie
+// les touches via le même chemin ASCII E7DE/E7DF que le TO9+ ; son conteneur ROM
+// est différent, mais le Device matériel partagé reste identique à ce niveau.
+func NewTO9(romMon, romBasic []byte) *GateArray {
+	return newWithKeyboard(romMon, romBasic, to9pKeyboardDef)
+}
+
 func newWithKeyboard(romMon, romBasic []byte, keyboard keyboardDef) *GateArray {
 	g := &GateArray{}
 	g.keyboard = keyboard
